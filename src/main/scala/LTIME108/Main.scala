@@ -4,32 +4,47 @@ import scala.annotation.tailrec
 
 object Main {
 
+  /**
+    * 
+    *
+    * @param problems
+    * @return
+    */
   def removeProblems(problems: String): Int = {
     @tailrec
     def loop(problems: Array[String], acct: Int): Int = {
       if(problems.isEmpty) acct
-      else{
-        if(problems.head.toInt >= 1000) loop(problems.tail, acct+1)
-        else loop(problems.tail, acct)
-      }
+      else if(problems.head.toInt >= 1000) loop(problems.tail, acct+1)
+      else loop(problems.tail, acct)
     }
     loop(problems.split(" "), 0)
   }
 
+  /**
+    * 
+    *
+    * @param problems
+    * @return
+    */
   def process(problems: List[String]): List[Int] = {
     @tailrec
     def loop(problems: List[String], flag: Boolean, acct: List[Int]): List[Int] = {
       if(problems.isEmpty) acct
-      else {
-        if(flag) loop(problems.tail, false, acct.::(removeProblems(problems.head)))
-        else loop(problems.tail, true, acct)
-      }
+      else if(flag) loop(problems.tail, false, acct.::(removeProblems(problems.head)))
+      else loop(problems.tail, true, acct)
     }
     loop(problems, true, List())
   }
 
   def main(args: Array[String]): Unit = {
 
+    /**
+      * 
+      *
+      * @param tests
+      * @param readLine
+      * @return
+      */
     def readInput(tests: Int)(readLine: () => String): List[String] = {
       @tailrec
       def loop(test: Int, acct: List[String]): List[String] = {
@@ -39,6 +54,11 @@ object Main {
       loop(tests*2, List())
     }
 
+    /**
+      * 
+      *
+      * @param data
+      */
     def printLines(data: List[Int]): Unit = {
       if(!data.isEmpty){
         println(data.head)
